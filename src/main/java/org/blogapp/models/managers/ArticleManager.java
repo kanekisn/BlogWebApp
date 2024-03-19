@@ -3,24 +3,17 @@ package org.blogapp.models.managers;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 import org.blogapp.models.ArticleEntity;
-import org.blogapp.models.UserEntity;
 
 import java.util.List;
 
 public class ArticleManager {
     private static final ArticleManager instance = new ArticleManager();
-    private SessionFactory sessionFactory = null;
+    private final SessionFactory sessionFactory;
 
     private ArticleManager(){
-        try {
-            this.sessionFactory = new Configuration().addAnnotatedClass(ArticleEntity.class).addAnnotatedClass(UserEntity.class).buildSessionFactory();
-        }catch (Exception e){
-            e.printStackTrace();
-            throw new RuntimeException("Failed to initialize Hibernate session factory");
-        }
+        this.sessionFactory = ManagerUtil.getFactory();
     }
 
     public static ArticleManager init() {
